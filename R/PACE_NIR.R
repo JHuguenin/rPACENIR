@@ -119,3 +119,18 @@ np.export.date <- function(spl = lnir$S_115){
   return(str_split(spl$Metadata[ii],"= ",simplify = TRUE)[,2])
 }
 # importer les metada du NIRS et matcher les deux =)
+
+#' logical merge
+#'
+#' @param a logical
+#' @param b  logical
+#'
+#' @return c logical
+#' @export
+#'
+#' @examples
+#' np.match(TRUE,FALSE)
+np.match <- function(a,b){
+  c <- merge(a,b)
+  return(c)
+}
