@@ -132,5 +132,6 @@ np.export.date <- function(spl = lnir$S_115){
 #' np.match(TRUE,FALSE)
 np.match <- function(a,b){
   c <- merge(a,b)
+  print(c)
   return(c)
 }
