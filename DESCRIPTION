@@ -1,0 +1,23 @@
+Package: rPACENIR
+Title: rPACENIR : read NIR data from PACE
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Joris",
+           family = "Huguenin",
+           role = c("aut", "cre"),
+           email = "joris.huguenin@cefe.cnrs.fr")
+Organization: CEFE, University of Montpellier
+Address: Montpellier, France
+Packaged: 2023-03-29; huguenin
+Description: The rPACENIR allows import, pretraitement and tools for analyze data of NIR.
+Date/Publication: 2023-03-29
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Imports:
+    magrittr (>= 2.0.0),
+    stringr (>= 1.4.0),
+    rnirs (>= 1.9),
+    Rcpm (>= 1.0.4)
