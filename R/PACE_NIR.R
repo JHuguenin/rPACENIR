@@ -20,10 +20,7 @@ NULL
 #' @param export logical
 #'
 #' @return data.frame with data and or csv file
-#' @export
-#'
-#' @examples
-#' # blabla exemple
+#' @noRd
 np.split.Multiblock.DX <- function (file = NULL, wd = NULL, export = FALSE){
   # intro ####
   if(is.null(wd) == TRUE) wd <- getwd()
@@ -66,11 +63,8 @@ np.split.Multiblock.DX <- function (file = NULL, wd = NULL, export = FALSE){
 #' @param jdx file jdx
 #'
 #' @return a data.frame
-#' @export
-#'
-#' @examples
-#' # blabla exemple
-np.read.block <- function (jdx = lnir[[1]]){
+#' @noRd
+np.read.block <- function (jdx){
   sstt <- grep( "^\\s*##XYDATA\\s*=\\s*\\(X\\+\\+\\(Y\\.\\.Y\\)\\)$", jdx)
   send <- grep("^\\s*##END\\s*=", jdx)
 
@@ -88,7 +82,7 @@ np.read.block <- function (jdx = lnir[[1]]){
   VL <- list()
   VL$Dataguide <- DF
   VL$Metadata <- metadata
-  VL$spectra <- rowMeans(fmr[,-1]) %>% cbind(fmr[,1],.) %>% as.data.frame()
+  VL$spectra <-  cbind(fmr[,1],rowMeans(fmr[,-1])) %>% as.data.frame()
   colnames(VL$spectra) <- c("wl","int")
 
   fmr <- metadata[grep("YFACTOR",metadata)] %>% str_split(" ")
@@ -110,28 +104,25 @@ np.read.block <- function (jdx = lnir[[1]]){
 #' @param spl csv file
 #'
 #' @return data.frame
-#' @export
-#'
-#' @examples
-#' # blabla exemple
-np.export.date <- function(spl = lnir$S_115){
-  ii <- c(grep("##TITLE",spl$Metadata), grep("##DATE",spl$Metadata), grep("##TIME",spl$Metadata))
-  return(str_split(spl$Metadata[ii],"= ",simplify = TRUE)[,2])
+#' @noRd
+np.export.date <- function(spl){
+  spl$name <- str_split(spl$Metadata[grep("##TITLE",spl$Metadata)],"= ",simplify = TRUE)[,2] %>% str_trim() %>% str_squish()
+  spl$date <- str_split(spl$Metadata[grep("##DATE",spl$Metadata)],"= ",simplify = TRUE)[,2] %>% str_trim() %>% str_squish()
+  spl$time <- str_split(spl$Metadata[grep("##TIME",spl$Metadata)],"= ",simplify = TRUE)[,2] %>% str_trim() %>% str_squish()
+  return(spl)
 }
-# importer les metada du NIRS et matcher les deux =)
 
-#' logical merge
+
+#' import from dx
 #'
-#' @param a logical
-#' @param b  logical
+#' importe les donnees de l'instrument au format dx
+#' @param name csv file
 #'
-#' @return c logical
+#' @return a list of lists
 #' @export
 #'
 #' @examples
-#' np.match(TRUE,FALSE)
-np.match <- function(a,b){
-  c <- merge(a,b)
-  print(c)
-  return(c)
+#' # np.import("sample.dx")
+np.import <- function(name = "sample.dx"){
+  np.split.Multiblock.DX(file = name) %>% lapply(np.read.block) %>% lapply(np.export.date)
 }
