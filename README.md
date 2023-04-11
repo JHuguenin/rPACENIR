@@ -22,4 +22,4 @@ library(rPACENIR)
 ## Utilisation
 
 Le package rPACENIR est conçu pour importer et traiter les donnees NIR,
-issues du setup du CEFE (UMR 5175) de Montpellier …
+issues du setup du CEFE (UMR 5175) de Montpellier.
